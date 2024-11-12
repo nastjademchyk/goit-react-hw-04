@@ -1,0 +1,20 @@
+.btn {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: black;
+}
+.searchForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-color: black;
+}
+
+.searchInput {
+  width: 300px;
+  color: black;
+}
+.searchInput::placeholder {
+  color: rgb(67, 62, 62);
+}
