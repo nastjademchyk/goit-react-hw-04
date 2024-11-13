@@ -26,7 +26,14 @@ export const fetchImages = async (query, page) => {
     });
     return {
       success: true,
-      images: response.data.results,
+      // images: response.data.results,
+
+      images: response.data.results.map((image) => ({
+        id: image.id,
+        urls: image.urls,
+        description: image.description,
+        likes: image.likes,
+      })),
     };
   } catch (error) {
     console.error("Error fetching images from Unsplash:", error);

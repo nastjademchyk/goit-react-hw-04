@@ -6,6 +6,7 @@ import LoadMoreBtn from "./LoadMoreBtn/LoadMoreBtn";
 import fetchImages from "./services/api";
 import ImageGallery from "./ImageGallery/ImageGallery";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
+import ImageModal from "./ImageModal/ImageModal";
 
 function App() {
   const [loader, setLoader] = useState(false);
@@ -13,6 +14,10 @@ function App() {
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [totalPages, setTotalPages] = useState(0);
 
   const handleImageSubmit = async (query) => {
     setImages([]);
@@ -25,6 +30,7 @@ function App() {
     if (result.success) {
       setImages(result.images);
       setQuery(query);
+      setTotalPages(result.totalPages);
     } else {
       setError(true);
     }
@@ -36,23 +42,47 @@ function App() {
       return;
     }
 
-    setLoader(true);
+    setLoadingMore(true);
     const result = await fetchImages(query, page + 1);
-    setLoader(false);
+
+    setLoadingMore(false);
     if (result.success) {
       setImages((prevImages) => [...prevImages, ...result.images]);
       setPage((prevPage) => prevPage + 1);
+      setTotalPages(result.totalPages);
     } else {
       setError(true);
     }
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setSelectedImage(null);
+  };
+
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+    setModalIsOpen(true);
   };
   return (
     <>
       <SearchBar onSubmit={handleImageSubmit} />
       {loader && <Loader />}
       {error && <ErrorMessage />}
-      {!loader && images.length > 0 && <ImageGallery images={images} />}
+      {!loader && images.length > 0 && (
+        <ImageGallery images={images} onImageClick={handleImageClick} />
+      )}
+
       {!loader && images.length > 0 && <LoadMoreBtn onClick={loadMoreImages} />}
+      {!loader && images.length > 0 && page < totalPages && (
+        <LoadMoreBtn onClick={loadMoreImages} />
+      )}
+      {loadingMore && <Loader />}
+      <ImageModal
+        modalIsOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        image={selectedImage}
+      />
     </>
   );
 }
