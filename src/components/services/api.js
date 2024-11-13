@@ -3,7 +3,7 @@ import axios from "axios";
 axios.defaults.baseURL = "https://api.unsplash.com";
 const ACCESS_KEY = "FptwxiChC5Bm_nYApjuu2BDwgNSfw5yahjVJ1hijrXE";
 
-export const fetchImages = async (query) => {
+export const fetchImages = async (query, page) => {
   if (!query || query.trim() === "") {
     console.error("Query cannot be empty");
     return {
@@ -16,6 +16,7 @@ export const fetchImages = async (query) => {
       params: {
         query,
         client_id: ACCESS_KEY,
+        page,
         per_page: 12,
       },
       headers: {
