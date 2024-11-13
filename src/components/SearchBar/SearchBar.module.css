@@ -2,18 +2,20 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
-  color: black;
+  color: #4e75ff;
 }
 .searchForm {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-color: black;
+  border-color: #4e75ff;
 }
 
 .searchInput {
-  width: 300px;
-  color: black;
+  border: 2px solid #4e75ff;
+  border-radius: 4px;
+  width: 272px;
+  height: 35px;
 }
 .searchInput::placeholder {
   color: rgb(67, 62, 62);

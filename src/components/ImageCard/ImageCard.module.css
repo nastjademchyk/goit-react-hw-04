@@ -1,0 +1,9 @@
+.img {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 360px;
+  display: block;
+  height: 165px;
+  object-fit: cover;
+}
