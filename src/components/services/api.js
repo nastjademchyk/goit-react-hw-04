@@ -6,7 +6,10 @@ const ACCESS_KEY = "FptwxiChC5Bm_nYApjuu2BDwgNSfw5yahjVJ1hijrXE";
 export const fetchImages = async (query) => {
   if (!query || query.trim() === "") {
     console.error("Query cannot be empty");
-    return [];
+    return {
+      success: false,
+      images: [],
+    };
   }
   try {
     const response = await axios.get("/search/photos", {
@@ -20,10 +23,17 @@ export const fetchImages = async (query) => {
         "Accept-Version": "v1",
       },
     });
-    return response.data.results;
+    return {
+      success: true,
+      images: response.data.results,
+    };
   } catch (error) {
     console.error("Error fetching images from Unsplash:", error);
-    return [];
+    return {
+      success: false,
+      images: [],
+    };
   }
 };
+
 export default fetchImages;

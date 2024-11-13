@@ -13,7 +13,15 @@ const customStyles = {
 };
 
 const ImageModal = () => {
-  return <div>ImageModal</div>;
+  return (
+    <div>
+      <img
+        src={image.urls.regular}
+        alt={image.description || "Image from Unsplash"}
+        className={s.img}
+      />
+    </div>
+  );
 };
 
 export default ImageModal;
