@@ -7,6 +7,7 @@ import fetchImages from "./services/api";
 import ImageGallery from "./ImageGallery/ImageGallery";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import ImageModal from "./ImageModal/ImageModal";
+import { Toaster, toast } from "react-hot-toast";
 
 function App() {
   const [loader, setLoader] = useState(false);
@@ -44,12 +45,16 @@ function App() {
 
     setLoadingMore(true);
     const result = await fetchImages(query, page + 1);
-
     setLoadingMore(false);
+
     if (result.success) {
       setImages((prevImages) => [...prevImages, ...result.images]);
       setPage((prevPage) => prevPage + 1);
       setTotalPages(result.totalPages);
+
+      if (page + 1 >= totalPages) {
+        toast.error("No more images to load!");
+      }
     } else {
       setError(true);
     }
@@ -73,15 +78,21 @@ function App() {
         <ImageGallery images={images} onImageClick={handleImageClick} />
       )}
 
-      {!loader && images.length > 0 && <LoadMoreBtn onClick={loadMoreImages} />}
       {!loader && images.length > 0 && page < totalPages && (
-        <LoadMoreBtn onClick={loadMoreImages} />
+        <div>
+          <LoadMoreBtn onClick={loadMoreImages} />
+          {loadingMore && <Loader />}{" "}
+        </div>
       )}
-      {loadingMore && <Loader />}
       <ImageModal
         modalIsOpen={modalIsOpen}
         onRequestClose={closeModal}
         image={selectedImage}
+      />
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{ duration: 3000 }}
       />
     </>
   );

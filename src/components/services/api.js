@@ -9,6 +9,7 @@ export const fetchImages = async (query, page) => {
     return {
       success: false,
       images: [],
+      totalPages: 0,
     };
   }
   try {
@@ -17,7 +18,7 @@ export const fetchImages = async (query, page) => {
         query,
         client_id: ACCESS_KEY,
         page,
-        per_page: 12,
+        per_page: 30,
       },
       headers: {
         Accept: "application/json",
@@ -26,20 +27,20 @@ export const fetchImages = async (query, page) => {
     });
     return {
       success: true,
-      // images: response.data.results,
-
       images: response.data.results.map((image) => ({
         id: image.id,
         urls: image.urls,
         description: image.description,
         likes: image.likes,
       })),
+      totalPages: Math.ceil(response.data.total / 30),
     };
   } catch (error) {
     console.error("Error fetching images from Unsplash:", error);
     return {
       success: false,
       images: [],
+      totalPages: 0,
     };
   }
 };
