@@ -81,7 +81,7 @@ function App() {
       {!loader && images.length > 0 && page < totalPages && (
         <div>
           <LoadMoreBtn onClick={loadMoreImages} />
-          {loadingMore && <Loader />}{" "}
+          {loadingMore && <Loader />}
         </div>
       )}
       <ImageModal

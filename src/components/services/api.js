@@ -18,7 +18,7 @@ export const fetchImages = async (query, page) => {
         query,
         client_id: ACCESS_KEY,
         page,
-        per_page: 30,
+        per_page: 12,
       },
       headers: {
         Accept: "application/json",
@@ -33,7 +33,7 @@ export const fetchImages = async (query, page) => {
         description: image.description,
         likes: image.likes,
       })),
-      totalPages: Math.ceil(response.data.total / 30),
+      totalPages: Math.ceil(response.data.total / 12),
     };
   } catch (error) {
     console.error("Error fetching images from Unsplash:", error);
